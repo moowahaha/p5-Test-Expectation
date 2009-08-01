@@ -56,22 +56,22 @@ sub it_should {
     @Expectations = ();
 }
 
-package UNIVERSAL;
-    sub _bindExpectation {
-        my ($expectationType, $class, $method) = @_;
+*UNIVERSAL::_bindExpectation = sub {
+    my ($expectationType, $class, $method) = @_;
 
-        my $expectation = $expectationType->new($class, $method);
-        push(@Expectations, $expectation);
-        return $expectation
-    }
+    my $expectation = $expectationType->new($class, $method);
+    push(@Expectations, $expectation);
+    return $expectation
+};
 
-    sub expects {
-        _bindExpectation('Test::Expectation::Positive', @_);
-    }
+*UNIVERSAL::expects = sub {
+    UNIVERSAL::_bindExpectation('Test::Expectation::Positive', @_);
+};
 
-    sub does_not_expect {
-        _bindExpectation('Test::Expectation::Negative', @_);
-    }
+*UNIVERSAL::does_not_expect = sub {
+    UNIVERSAL::_bindExpectation('Test::Expectation::Negative', @_);
+};
+
 1;
 
 __END__
