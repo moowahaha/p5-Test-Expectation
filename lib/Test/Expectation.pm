@@ -136,23 +136,27 @@ Test::Expectation - A Perl unit test framework based on Ruby's RSpec framework.
 
 =head1 DESCRIPTION
 
-If you've never heard of Behavior Driven Development or Test Driven Development then you should probably learn about that first! See the "SEE ALSO" section for some useful links.
+If you've never heard of Behavior Driven Development or Test Driven Development then you should probably learn about that first! Take a look at the "SEE ALSO" section for some useful links.
 
-The way I like to think of Test Driven Development unit testing is like writing a TODO list for my code that also happens to test it as well. So I can put together my class, design it and it's methods in my Test::Expectation test and then write the code to make the tests pass.
+The way I like to think of Test Driven Development unit testing is like writing a TODO list for my code that also happens to test it as well. So I can put together my class, design it and it's internals in my Test::Expectation test and then write the code to make the tests pass. This should be done for each test.
 
-This is a pretty blatent copy of Ruby's RSpec framework. Having used that pretty frequently, when I moved from a Ruby project to a Perl one, it felt a bit dirty not writing RSpec tests. So I have quickly put together a framework that will act in a similar way to RSpec.
+This is a blatant copy of Ruby's RSpec framework. Having used that pretty frequently, when I moved from a Ruby project to a Perl one, it felt a bit dirty not writing RSpec tests. So I have quickly put together a framework that will act in a similar way to RSpec.
 
 =head1 EXPORTED FUNCTIONS
 
  it_is_a(your class or whatever) - This sets the name of the class you are testing.
 
- it_should(expected behavior, code block) - This is your test. The block within will contain the expectations and some execution.
+ it_should(expected behavior string, coderef) - This is your test. The block within will contain the expectations and some execution.
+
+ before_each(some coderef) - Some code that will be executed before each "it_should" block.
+
+ after_head(some coderef) - Some code that will be executed *after* each "it_should" block.
 
 =head1 METHODS
 
-YourClass.expects(some method) - This method will be added to your class and will assert that the given method will be called somewhere in the "it_should" block. It returns an instance of Test::Expectation::Base.
+ YourClass.expects(some method) - This method will be added to your class and will assert that the given method will be called somewhere in the "it_should" block. It returns an instance of Test::Expectation::Base.
 
-YourClass.does_not_expect(some method) - Same as "expects" but checks that your method is NOT called during the execution of your "it_should_ block.
+ YourClass.does_not_expect(some method) - Same as "expects" but checks that your method is NOT called during the execution of your "it_should_ block.
 
 Calling "expects" or "does_not_expect" will return an instance of Test::Expectation::Base. It has the following methods:
 
