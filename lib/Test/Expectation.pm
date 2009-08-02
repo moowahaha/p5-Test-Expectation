@@ -176,6 +176,8 @@ Each assertion made with expects or does_not_expect will be a test. If the assee
 
 =head1 SEE ALSO
 
+ - Project's GitHub page: http://github.com/moowahaha/p5-Test-Expectation/
+
  - RSpec: http://rspec.info/
 
  - Test::More: http://search.cpan.org/~mschwern/Test-Simple-0.92/lib/Test/More.pm
