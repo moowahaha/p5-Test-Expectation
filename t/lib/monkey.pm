@@ -25,5 +25,18 @@ package Monkey;
     sub scratch {
         itch('bite');
     }
+
+    sub cigar {}
+
+    sub smoke {
+        eval {
+            cigar();
+        };
+
+        chomp($@);
+        return 'oops!' if ($@ eq 'kaboom!');
+
+        return 'ahh, nicotine';
+    }
 1;
 

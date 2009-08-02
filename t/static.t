@@ -33,3 +33,13 @@ it_should "scratch itself", sub {
     Monkey->scratch();
 };
 
+it_should "explode when it smokes dynamite", sub {
+    Monkey->expects('cigar')->to_raise('kaboom!');
+
+    is_deeply(
+        Monkey->smoke(),
+        'oops!',
+        'monkey smoked dynamite'
+    );
+};
+

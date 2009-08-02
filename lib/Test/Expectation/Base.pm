@@ -68,6 +68,15 @@ sub to_return {
     @{$self->{-returnValues}} = @returnValues;
 }
 
+sub to_raise {
+    my ($self, $exception) = @_;
+
+    $self->_setReplacement(sub {
+        $self->met();
+        die($exception . "\n");
+    });
+}
+
 sub met {
     shift->{-met} = 1;
 }

@@ -3,9 +3,10 @@ use warnings;
 
 package Test::Expectation;
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 
 use Carp qw(croak);
+use Test::Strict;
 use Test::More 'no_plan';
 use Test::Expectation::Positive;
 use Test::Expectation::Negative;
@@ -35,9 +36,9 @@ sub after_each {
 sub it_should {
     my ($testName, $testRef) = @_;
 
+    @Expectations = ();
     $BeforeEach->();
 
-    @Expectations = ();
     $testRef->();
 
     foreach my $expectation (@Expectations) {
@@ -143,9 +144,9 @@ This is a pretty blatent copy of Ruby's RSpec framework. Having used that pretty
 
 =head1 EXPORTED FUNCTIONS
 
-it_is_a(your class or whatever) - This sets the name of the class you are testing.
+ it_is_a(your class or whatever) - This sets the name of the class you are testing.
 
-it_should(expected behavior, code block) - This is your test. The block within will contain the expectations and some execution.
+ it_should(expected behavior, code block) - This is your test. The block within will contain the expectations and some execution.
 
 =head1 METHODS
 
@@ -155,9 +156,11 @@ YourClass.does_not_expect(some method) - Same as "expects" but checks that your 
 
 Calling "expects" or "does_not_expect" will return an instance of Test::Expectation::Base. It has the following methods:
 
-with(arguments...) - Asserts that your method named in your "expects"/"does_not_expect" call will be called with the given arguments.
+ with(arguments...) - Asserts that your method named in your "expects"/"does_not_expect" call will be called with the given arguments.
 
-to_return(some vaues...) - Ensures that *if* your method is called, it will return the list of values.
+ to_return(some vaues...) - Ensures that *if* your method is called, it will return the list of values.
+
+ to_raise(some error) - If your method is called, it will throw a given exception.
 
 =head1 HOW IT WORKS
 
@@ -169,13 +172,13 @@ Each assertion made with expects or does_not_expect will be a test. If the assee
 
 =head1 SEE ALSO
 
-- RSpec: http://rspec.info/
+ - RSpec: http://rspec.info/
 
-- Test::More - http://search.cpan.org/~mschwern/Test-Simple-0.92/lib/Test/More.pm
+ - Test::More: http://search.cpan.org/~mschwern/Test-Simple-0.92/lib/Test/More.pm
 
-- TDD (Test Driven Development): http://en.wikipedia.org/wiki/Test-driven_development
+ - TDD (Test Driven Development): http://en.wikipedia.org/wiki/Test-driven_development
 
-- BDD (Behavior Driven Development): http://en.wikipedia.org/wiki/Behavior_Driven_Development
+ - BDD (Behavior Driven Development): http://en.wikipedia.org/wiki/Behavior_Driven_Development
 
 =head1 COPYRIGHT
 
