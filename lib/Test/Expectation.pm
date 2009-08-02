@@ -3,7 +3,7 @@ use warnings;
 
 package Test::Expectation;
 
-our $VERSION = 0.02;
+our $VERSION = 0.03;
 
 use Carp qw(croak);
 use Test::Strict;
