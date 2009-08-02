@@ -150,7 +150,7 @@ This is a blatant copy of Ruby's RSpec framework. Having used that pretty freque
 
  before_each(some coderef) - Some code that will be executed before each "it_should" block.
 
- after_head(some coderef) - Some code that will be executed *after* each "it_should" block.
+ after_each(some coderef) - Some code that will be executed *after* each "it_should" block.
 
 =head1 METHODS
 
