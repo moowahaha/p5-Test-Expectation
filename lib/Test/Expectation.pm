@@ -3,7 +3,7 @@ use warnings;
 
 package Test::Expectation;
 
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 
 use Carp qw(croak);
 use Test::Strict;
@@ -61,6 +61,7 @@ sub it_should {
     my ($expectationType, $class, $method) = @_;
 
     my $expectation = $expectationType->new($class, $method);
+
     push(@Expectations, $expectation);
     return $expectation
 };
@@ -100,7 +101,7 @@ Test::Expectation - A Perl unit test framework based on Ruby's RSpec framework.
 
  # ... and some code that will run after each test.
  after_each(sub {
-     $today->subGoesDown;
+     $today->sunGoesDown;
  });
 
  # these are our tests.
@@ -128,7 +129,7 @@ Test::Expectation - A Perl unit test framework based on Ruby's RSpec framework.
  # tomorrow" with the parameter "wednesday".
  # we'll force "tomorrow" to return thursday.
  it_should "have a next day", sub {
-     Day->expects('tomorrow')->with('wednesday)->to_return('thursday');
+     Day->expects('tomorrow')->with('wednesday')->to_return('thursday');
 
      $day->setDay('wednesday');
      $day->calculateSurroundingDays();

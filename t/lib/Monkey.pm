@@ -38,5 +38,8 @@ package Monkey;
 
         return 'ahh, nicotine';
     }
+
+    sub diet {
+    }
 1;
 

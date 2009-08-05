@@ -18,7 +18,7 @@ after_each(sub {
 });
 
 it_should "go to school", sub {
-    $man->expects('school')->to_return('reading');
+    Man->expects('school')->to_return('reading');
 
     is_deeply(
         $man->beChild(),
@@ -47,3 +47,9 @@ it_should "catch STD when cheating on wife", sub {
     );
 };
 
+it_should "get fired and hired", sub {
+    $man->expects('hired');
+    $man->expects('fired');
+
+    $man->career();
+};

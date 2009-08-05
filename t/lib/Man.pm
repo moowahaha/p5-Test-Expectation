@@ -32,5 +32,13 @@ package Man;
 
         $self->std() if $quality eq 'hooker';
     }
+
+    sub hired {}
+    sub fired {}
+
+    sub career {
+        hired();
+        fired();
+    }
 1;
 

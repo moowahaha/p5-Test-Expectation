@@ -2,6 +2,7 @@ package Test::Expectation::Base;
 
 use strict;
 use warnings;
+use Carp;
 use Data::Dumper;
 use Sub::Override;
 
@@ -20,15 +21,35 @@ sub new {
         -returnValues => []
     };
 
+    $self->{-expectationsSet} = {};
+
     bless($self, $class);
 
     $self->_setReplacement(sub {
         $self->met();
-        $self->{-returnValues}->[0];
+        $self->_doReturn
     });
 
     return $self;
 }
+
+sub _doReturn {
+    my $self = shift;
+
+    if (wantarray) {
+        return @{$self->{-returnValues}};
+    }
+    else {
+        return $self->{-returnValues}->[0];
+    }
+}
+
+# if an expectation is being set against one of these classes, then something
+# has probably gone wrong.
+sub expects {
+    croak('Cannot set multiple expectations against a single method')
+}
+*does_not_expect = *expects;
 
 sub _setReplacement {
     my ($self, $code) = @_;
@@ -44,6 +65,12 @@ sub _setReplacement {
 sub with {
     my ($self, @expectedParams) = @_;
 
+    croak('Cannot define "with" more than once against a single expectation')
+        if ($self->{-expectationsSet}->{-with})
+    ;
+
+    $self->{-expectationsSet}->{-with} = 1;
+
     $self->{-failure} = $self->{-failure} . " with '@expectedParams'";
 
     $self->_setReplacement(sub {
@@ -55,7 +82,7 @@ sub with {
 
         $self->met() if (Dumper(@params) eq Dumper(@expectedParams));
 
-        $self->{-returnValues}->[0];
+        $self->_doReturn;
     });
 
     return $self;
@@ -65,16 +92,32 @@ sub with {
 sub to_return {
     my ($self, @returnValues) = @_;
 
+    croak('Cannot set more that one return expectation')
+        if ($self->{-expectationsSet}->{-return})
+    ;
+
+    $self->{-expectationsSet}->{-return} = 1;
+
     @{$self->{-returnValues}} = @returnValues;
+
+    return $self
 }
 
 sub to_raise {
     my ($self, $exception) = @_;
 
+    croak('Cannot expect more than one exception')
+        if ($self->{-expectationsSet}->{-exception})
+    ;
+
+    $self->{-expectationsSet}->{-exception} = 1;
+
     $self->_setReplacement(sub {
         $self->met();
         die($exception . "\n");
     });
+
+    return $self;
 }
 
 sub met {
