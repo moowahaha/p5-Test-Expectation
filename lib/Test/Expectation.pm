@@ -3,10 +3,9 @@ use warnings;
 
 package Test::Expectation;
 
-our $VERSION = 0.05;
+our $VERSION = 0.06;
 
 use Carp qw(croak);
-use Test::Strict;
 use Test::More 'no_plan';
 use Test::Expectation::Positive;
 use Test::Expectation::Negative;
@@ -41,6 +40,8 @@ sub it_should {
 
     $testRef->();
 
+    $AfterEach->();
+
     foreach my $expectation (@Expectations) {
         my $testString = ($Description ? $Description . " " : 'it ') . "should $testName";
 
@@ -51,8 +52,6 @@ sub it_should {
             fail($testString . ' (' . $expectation->failure . ')');
         }
     }
-
-    $AfterEach->();
 
     @Expectations = ();
 }
