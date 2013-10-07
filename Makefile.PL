@@ -9,4 +9,9 @@ WriteMakefile(
     },
     ($] >= 5.005 ?
        (AUTHOR         => 'Stephen Hardisty <moowahaha@hotmail.com>') : ()),
+    META_MERGE         => {
+        resources => {
+            repository => 'https://github.com/moowahaha/p5-Test-Expectation',
+        },
+    },
 );
